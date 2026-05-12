@@ -1,9 +1,9 @@
 import os
 from datetime import datetime,timedelta
 
-from jose import jwt
+from jose import jwt, JWTError
 from dotenv import load_dotenv
-
+from fastapi import HTTPException
 
 from passlib.context import CryptContext
 
@@ -45,3 +45,23 @@ def create_acess_token(data: dict):
     )
 
     return encoded_jwt
+
+
+
+def verify_acess_token(token:str):
+
+    try:
+
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        return payload
+    
+    except JWTError:
+        raise HTTPException(
+            status_code=401,
+            detail = "Invalid or expired token"
+        )

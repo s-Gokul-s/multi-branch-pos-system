@@ -14,7 +14,7 @@ from services.auth_service import (
     login_user_service
 )
 
-
+from auth.auth_bearer import get_current_user
 
 router = APIRouter(
     prefix="/auth",
@@ -47,3 +47,15 @@ def login_user(
         db,
         user
     )
+
+
+@router.get("/me")
+def get_current_logged_user(
+
+    current_user = Depends(get_current_user)
+
+):
+
+    return {
+        "user": current_user
+    }
