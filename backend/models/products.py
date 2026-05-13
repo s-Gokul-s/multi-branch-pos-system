@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float
 from database import Base
+from sqlalchemy.orm import relationship
+
 
 class Product(Base):
     __tablename__ = "products"
@@ -13,3 +15,7 @@ class Product(Base):
     price = Column(Float,nullable=False)
     
     barcode = Column(String,unique = True)
+
+    inventories = relationship(
+        "Inventory",
+        back_populates="product")

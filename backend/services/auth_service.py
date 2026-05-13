@@ -7,11 +7,32 @@ from auth.auth_handler import hash_password
 
 from auth.auth_handler import (verify_password, create_acess_token)
 
-
+from models.branch import Branch
 
 
 def register_user_service(db : Session,
                           user):
+    
+
+    if user.role.value in ["manager", "cashier"]:
+
+        if not user.branch_id:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Branch required for manager/cashier"
+            )
+
+        existing_branch = db.query(Branch).filter(
+            Branch.id == user.branch_id
+        ).first()
+
+        if not existing_branch:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Branch not found"
+            )
     
     existing_user = db.query(User).filter(
         User.email == user.email
@@ -31,7 +52,8 @@ def register_user_service(db : Session,
         name=user.name,
         email=user.email,
         password=hashed_password,
-        role=user.role
+        role=user.role,
+        branch_id=user.branch_id
     )
 
     db.add(new_user)
@@ -76,7 +98,8 @@ def login_user_service(
         data={
             "user_id": existing_user.id,
             "email": existing_user.email,
-            "role": existing_user.role
+            "role": existing_user.role,
+            "branch_id": existing_user.branch_id
         }
     )
 

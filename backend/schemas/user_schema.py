@@ -20,6 +20,8 @@ class UserCreate(BaseModel):
 
     role : UserRole
 
+    branch_id: int | None = None
+
 
 class UserResponse(BaseModel):
 
@@ -30,6 +32,8 @@ class UserResponse(BaseModel):
     email : EmailStr
 
     role : UserRole
+
+    branch_id: int | None
 
     class Config:
         from_attributes = True

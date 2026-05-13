@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from database import Base
+
 
 
 class User(Base):
@@ -13,3 +14,9 @@ class User(Base):
     password = Column(String, nullable=False)
 
     role = Column(String, nullable=False)
+
+    branch_id = Column(
+                Integer,
+                ForeignKey("branches.id"),
+                nullable=True
+            )
