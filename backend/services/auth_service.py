@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+from logger import logger
 
 from models.user import User
 
@@ -8,6 +9,7 @@ from auth.auth_handler import hash_password
 from auth.auth_handler import (verify_password, create_acess_token)
 
 from models.branch import Branch
+
 
 
 def register_user_service(db : Session,
@@ -62,6 +64,10 @@ def register_user_service(db : Session,
 
     db.refresh(new_user)
 
+    logger.info(
+        f"New user registered: {new_user.email}"
+    )
+
     return new_user
 
 
@@ -101,6 +107,10 @@ def login_user_service(
             "role": existing_user.role,
             "branch_id": existing_user.branch_id
         }
+    )
+
+    logger.info(
+        f"User logged in: {existing_user.email}"
     )
 
     return {

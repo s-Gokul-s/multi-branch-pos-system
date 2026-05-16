@@ -2,6 +2,8 @@ from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 
+from logger import logger
+
 from models.sale import Sale
 from models.sale_item import SaleItem
 
@@ -116,6 +118,12 @@ def create_sale_service(
     db.commit()
 
     db.refresh(new_sale)
+
+    logger.info(
+        f"Sale created: "
+        f"Sale ID {new_sale.id} "
+        f"by User {current_user['email']}"
+    )
 
     return new_sale
 
