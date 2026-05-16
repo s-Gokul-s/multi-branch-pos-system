@@ -24,7 +24,9 @@ from models.products import Product
 from models.user import User
 from models.branch import Branch
 from models.inventory import Inventory
-
+from models.sale import Sale
+from models.sale_item import SaleItem
+from models.customer import Customer
 
 target_metadata = Base.metadata
 
