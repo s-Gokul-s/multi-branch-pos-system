@@ -7,12 +7,13 @@ from fastapi import HTTPException
 
 from passlib.context import CryptContext
 
+from core.config import settings
 
-load_dotenv()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
 
-ALGORITHM = os.getenv("ALGORITHM")
+SECRET_KEY = settings.SECRET_KEY
+
+ALGORITHM = settings.ALGORITHM
 
 
 pwd_context = CryptContext(
